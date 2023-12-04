@@ -4,14 +4,14 @@ import { getDatabase } from "firebase/database";
 
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCD81KHJcDsVHj6pemig7_6WCBx4la78h4",
-  authDomain: "sectors-3ae2b.firebaseapp.com",
-  projectId: "sectors-3ae2b",
-  storageBucket: "sectors-3ae2b.appspot.com",
-  messagingSenderId: "1087858098973",
-  appId: "1:1087858098973:web:b6f8d3b83b3367c58557f4",
-  measurementId: "G-08DVE8007N",
-  databaseURL: "https://sectors-3ae2b-default-rtdb.firebaseio.com/",
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
+  measurementId: process.env.REACT_APP_MEASUREMENT_ID,
+  databaseURL: process.env.REACT_APP_DATABASE_URL,
 };
 
 // Initialize Firebase

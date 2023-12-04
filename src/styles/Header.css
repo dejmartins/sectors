@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Mukta:wght@700&display=swap');
+
+.header {
+    font-family: 'Mukta', sans-serif;
+    font-size: 80px;
+    font-weight: 700;
+    height: 14rem;
+}
+
+.header p {
+    left: 50px;
+}
+
+@media (max-width: 765px) {
+    .header {
+        font-size: 60px;
+        height: 12rem
+    }
+
+    .header p {
+        left: 20px;
+    }
+}

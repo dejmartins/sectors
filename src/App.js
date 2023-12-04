@@ -1,5 +1,6 @@
 import './App.css';
 import React, { useEffect, useState } from 'react';
+import Home from './pages/Home';
 // import { ref, get } from 'firebase/database';
 // import { database } from './firebase';
 
@@ -38,7 +39,8 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <p className=''>Please enter your name and pick the Sectors you are currently involved in.</p>
+        <Home />
+        {/* <p className=''>Please enter your name and pick the Sectors you are currently involved in.</p>
         <form onSubmit={handleSubmit}>
           <div className='flex'>
             <label htmlFor='name'>Name:</label>
@@ -68,7 +70,7 @@ function App() {
             <label>Agree to terms</label>
           </div>
           <button>Save</button>
-        </form>
+        </form> */}
       </header>
     </div>
   );

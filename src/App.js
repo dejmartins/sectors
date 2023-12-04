@@ -1,22 +1,40 @@
-import logo from './logo.svg';
 import './App.css';
+import { useEffect, useState } from 'react';
+import { ref, set, get } from 'firebase/database';
+import { database } from './firebase';
 
 function App() {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    set(ref(database, '/users'), {
+        message: "Hello firebase!",
+        name: "Osaro"
+      });
+
+    const fetchData = async () => {
+      const snapshot = await get(ref(database, '/users'));
+      if (snapshot.exists()) {
+        setData(snapshot.val());
+        console.log(data)
+        console.log(snapshot.val())
+      } else {
+        console.log('No data available');
+      }
+    };
+
+    // fetchData();
+  }, [])
+
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <p>I'm here</p>
+        <form>
+          <input />
+          <button>Submit</button>
+        </form>
       </header>
     </div>
   );

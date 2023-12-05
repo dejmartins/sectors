@@ -33,7 +33,7 @@ export default function Home() {
                             placeholder="Asabe"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
-                            className="input border" />
+                            className="input" />
                     </div>
 
                     <div className="flex flex-col mb-3 w-80 w-full">
@@ -43,7 +43,7 @@ export default function Home() {
                             multiple
                             value={selectedSectors}
                             onChange={(e) => setSelectedSectors(Array.from(e.target.selectedOptions, (option) => option.value))} 
-                            className="input border-2">
+                            className="input">
                         <option value='Manufacturing'>Manufacturing</option>
                         <option value='Subsector1'>&nbsp; &nbsp; Manufacturing</option>
                         </select>
@@ -54,7 +54,7 @@ export default function Home() {
                             type='checkbox' 
                             checked={agreeToTerms}
                             onChange={() => setAgreeToTerms(!agreeToTerms)}
-                            className="border mr-2" />
+                            className="mr-2" />
                         <label>Agree to terms</label>
                     </div>
                     <Button text={"Save"} />

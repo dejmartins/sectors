@@ -44,12 +44,12 @@ export default function Home() {
                             value={selectedSectors}
                             onChange={(e) => setSelectedSectors(Array.from(e.target.selectedOptions, (option) => option.value))} 
                             className="input">
-                        <option value='Manufacturing'>Manufacturing</option>
+                        <option selected value='Manufacturing'>Manufacturing</option>
                         <option value='Subsector1'>&nbsp; &nbsp; Manufacturing</option>
                         </select>
                     </div>
 
-                    <div className='flex'>
+                    <div className='flex mb-2'>
                         <input 
                             type='checkbox' 
                             checked={agreeToTerms}

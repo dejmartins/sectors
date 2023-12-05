@@ -1,4 +1,3 @@
-import './App.css';
 import Home from './pages/Home';
 import React, { useEffect } from 'react';
 

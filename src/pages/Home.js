@@ -1,6 +1,7 @@
 import Header from "../layouts/Header"
 import Button from "../components/Button";
 import React, { useState } from 'react';
+import SectorOptions from "../layouts/SectorOptions";
 import "../styles/Home.css"
 
 export default function Home() {
@@ -36,18 +37,7 @@ export default function Home() {
                             className="input" />
                     </div>
 
-                    <div className="flex flex-col mb-3 w-80 w-full">
-                        <label htmlFor="sectors">Sectors:</label>
-                        <select 
-                            name='sectors' 
-                            multiple
-                            value={selectedSectors}
-                            onChange={(e) => setSelectedSectors(Array.from(e.target.selectedOptions, (option) => option.value))} 
-                            className="input">
-                        <option selected value='Manufacturing'>Manufacturing</option>
-                        <option value='Subsector1'>&nbsp; &nbsp; Manufacturing</option>
-                        </select>
-                    </div>
+                    <SectorOptions />
 
                     <div className='flex mb-2'>
                         <input 

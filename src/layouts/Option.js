@@ -21,21 +21,6 @@ function Option() {
 
             setSectors(sectorsArray);
 
-            // let parentSectors = sectorsArray.map(sectors => sectors.key)
-
-            // parentSectors.forEach((sector) => {
-            //     console.log(sector)
-                
-            //     for (let i = 0; i < sectorsData[sector].length; i++) {
-            //         let sectorName = sectorsData[sector][i];
-            //         if(typeof sectorName === "object"){
-            //             console.log(sectorName.name)
-            //         } else {
-            //             console.log(sectorName);
-            //         }
-            //     }
-            // })
-
             // const parentSectors = sectorsArray.map((sector) => sector.key);
 
             // parentSectors.forEach((sector) => {
@@ -43,14 +28,29 @@ function Option() {
 
             // sectorsData[sector].forEach((sectorData) => {
             //     if (typeof sectorData === "object") {
-            //     console.log(sectorData.name);
+            //     console.log("--", sectorData.name);
+
+            //     sectorData.subCategories.forEach((sector) => {
+            //         if(typeof sector === "object"){
+            //             console.log("----", sector.name)
+
+            //             sector.subCategories.forEach((sec) => {
+            //                 if(typeof sec === "object"){
+            //                     console.log("------", sec.name)
+            //                 } else {
+            //                     console.log("------", sec)
+            //                 }
+            //             })
+            //         } else {
+            //             console.log("----", sector)
+            //         }
+            //     })
+
             //     } else {
-            //     console.log(sectorData);
+            //     console.log("--", sectorData);
             //     }
             // });
             // });
-
-            console.log(sectorsData)
      
         } else {
           console.log('No data available');
@@ -62,46 +62,34 @@ function Option() {
 
     fetchData();
   }, []);
+
+  
   const parentSectors = sectors.map((sector) => sector.key);
 
   return (
-    // <div>
-    //   <label htmlFor="sectors">Select Sectors:</label>
-    //     <select name="sectors" multiple>
-    //         {sectors.map((sector) => (
-    //             <option key={sector.key} value={sector.key}>
-    //             {typeof sector === "object" ? sector.name : sector}
-    //             {/* {Array.isArray(sector.subCategories) &&
-    //                 sector.subCategories.map((subCategory) => (
-    //                 <option key={subCategory.key} value={subCategory.key}>
-    //                     &nbsp; &nbsp; {typeof subCategory === "object" ? subCategory.name : subCategory}
-    //                 </option>
-    //                 ))} */}
-    //             </option>
-    //         ))}
-    //     </select>
-    // </div>
 
-    <div>
-        <label htmlFor="sectors">Select Sectors:</label>
-        <select name="sectors" multiple>
+    <div className='mt-10'>
+      <label htmlFor="sectors">Select Sectors:</label>
+      <select name="sectors" multiple>
         {parentSectors.map((sector) => (
-            <optgroup key={sector} label={sector}>
+          <optgroup key={sector} label={sector[0].toUpperCase() + sector.slice(1)}>
             {sectorsData[sector].map((sectorData) => (
-                <option key={sectorData.key} value={sectorData.key}>
-                {typeof sectorData === "object" ? sectorData.name : sectorData}
-                {/* {Array.isArray(sectorData.subCategories) &&
-                    sectorData.subCategories.map((subCategory) => (
-                    <option key={subCategory.key} value={subCategory.key}>
-                        &nbsp; &nbsp; {typeof subCategory === "object" ? subCategory.name : subCategory}
-                    </option>
-                    ))} */}
+              <React.Fragment key={sectorData.key}>
+                <option value={sectorData.key}>
+                  {typeof sectorData === "object" ? sectorData.name : sectorData}
                 </option>
+                {Array.isArray(sectorData.subCategories) &&
+                  sectorData.subCategories.map((subCategory) => (
+                    <option key={subCategory.key} value={subCategory.key}>
+                      &nbsp; &nbsp; {typeof subCategory === "object" ? subCategory.name : subCategory}
+                    </option>
+                  ))}
+              </React.Fragment>
             ))}
-            </optgroup>
+          </optgroup>
         ))}
-        </select>
-  </div>
+      </select>
+    </div>
   );
 }
 

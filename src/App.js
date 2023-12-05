@@ -1,4 +1,5 @@
-import Home from './pages/Home';
+// import Home from './pages/Home';
+import Option  from './layouts/Option';
 import React, { useEffect } from 'react';
 
 function App() {
@@ -23,7 +24,8 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <Home />
+        {/* <Home /> */}
+        <Option />
       </header>
     </div>
   );

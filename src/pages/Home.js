@@ -2,6 +2,8 @@ import Header from "../layouts/Header"
 import Button from "../components/Button";
 import React, { useState, useEffect } from 'react';
 import SectorOptions from "../layouts/SectorOptions";
+import { database } from "../firebase";
+import { set, ref } from "firebase/database";
 import "../styles/Home.css"
 
 export default function Home() {
@@ -17,21 +19,22 @@ export default function Home() {
         validateInputs();
     }, [name, selectedSectors, agreeToTerms]);
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         
         setHasSubmitted(true)
         validateInputs();
-        
-        console.log(isAllValidated())
-        console.log(nameError, selectedSectorsError, agreeToTermsError)
 
         if(isAllValidated()){
-            console.log(createRequest());
+            let userDetailsRequest = createRequest();
+            await sendUserData(userDetailsRequest);
             clearField();
         }
-
     };
+
+    const sendUserData = async (userDetailsRequest) => {
+        set(ref(database, `/users/${userDetailsRequest.name}`), userDetailsRequest);
+    }
 
     const handleSelectedSectorsChange = (selectedSectorKeys) => {
         setSelectedSectors(selectedSectorKeys);
@@ -59,9 +62,15 @@ export default function Home() {
     }
 
     const createRequest = () => {
+        let sectors = {};
+
+        selectedSectors.forEach((sector, index) => {
+            sectors[`${index}`] = sector
+        })
+
         return {
             name: name,
-            sectors: selectedSectors,
+            sectors,
             agreeToTerms: agreeToTerms
         }
     }

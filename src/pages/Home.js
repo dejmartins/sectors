@@ -18,14 +18,12 @@ export default function Home() {
 
         validateInputs();
         setHasSubmitted(true)
-        
+        console.log(isAllValidated())
+        console.log(nameError, selectedSectorsError, agreeToTermsError)
+
         if(isAllValidated()){
-            console.log('Form submitted:', { name, selectedSectors, agreeToTerms });
-            
-            setName('');
-            setSelectedSectors([]);
-            setAgreeToTerms(false);
-            setHasSubmitted(false);
+            console.log(createRequest());
+            clearField();
         }
 
     };
@@ -42,6 +40,25 @@ export default function Home() {
 
     const isAllValidated = () => {
         return !nameError && !selectedSectorsError && !agreeToTermsError;
+    }
+
+    const clearField = () => {
+        setName('');
+        setSelectedSectors([]);
+        setAgreeToTerms(false);
+        setHasSubmitted(false);
+        setNameError('')
+        setSelectedSectorsError([]);
+        setAgreeToTermsError(false);
+
+    }
+
+    const createRequest = () => {
+        return {
+            name: name,
+            sectors: selectedSectors,
+            agreeToTerms: agreeToTerms
+        }
     }
 
     return (

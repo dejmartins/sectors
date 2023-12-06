@@ -3,7 +3,7 @@ import Button from "../components/Button";
 import React, { useState, useEffect } from 'react';
 import SectorOptions from "../layouts/SectorOptions";
 import { database } from "../firebase";
-import { set, ref } from "firebase/database";
+import { set, ref, get, update, remove } from "firebase/database";
 import "../styles/Home.css"
 
 export default function Home() {
@@ -14,6 +14,9 @@ export default function Home() {
     const [agreeToTerms, setAgreeToTerms] = useState(false);
     const [agreeToTermsError, setAgreeToTermsError] = useState(false);
     const [hasSubmitted, setHasSubmitted] = useState(false);
+    const [isEditMode, setIsEditMode] = useState(false);
+    const [buttonText, setButtonText] = useState('Save');
+    const [currentUserId, setCurrentUserId] = useState({});
 
     useEffect(() => {
         validateInputs();
@@ -26,15 +29,54 @@ export default function Home() {
         validateInputs();
 
         if(isAllValidated()){
-            let userDetailsRequest = createRequest();
-            await sendUserData(userDetailsRequest);
-            clearField();
+            try{
+                let userDetailsRequest = createRequest();
+
+                if(isEditMode){
+                    await updateUserData(userDetailsRequest);
+                } else {
+                    await sendUserData(userDetailsRequest);
+                }
+
+                clearField();
+                await fetchUserData(userDetailsRequest.name);
+            } catch (error){
+                console.log("Error:", error.message)
+            }
         }
     };
 
     const sendUserData = async (userDetailsRequest) => {
         set(ref(database, `/users/${userDetailsRequest.name}`), userDetailsRequest);
     }
+
+    const updateUserData = async (userDetailsRequest) => {
+        await sendUserData(userDetailsRequest)
+
+        if(userDetailsRequest.name !== currentUserId){
+            remove(ref(database, `/users/${currentUserId}`))
+        }
+    }
+
+    const fetchUserData = async (userId) => {
+        const result = await get(ref(database, `/users/${userId}`));
+        if (result.exists()) {
+            let userData = result.val();
+            setIsEditMode(true);
+            setButtonText("Edit")
+
+            setUserData(userData);
+        } else {
+            console.log('No data available');
+        }
+    }
+
+    const setUserData = (userData) => {
+        setName(userData.name);
+        setCurrentUserId(userData.name);
+        setSelectedSectors(userData.sectors);
+        setAgreeToTerms(userData.agreeToTerms);
+    };
 
     const handleSelectedSectorsChange = (selectedSectorKeys) => {
         setSelectedSectors(selectedSectorKeys);
@@ -107,7 +149,7 @@ export default function Home() {
                         <label>Agree to terms</label>
                         {agreeToTermsError && hasSubmitted && <span className="text-red-500 ml-2 text-[10px]">*Required</span>}
                     </div>
-                    <Button text={"Save"} />
+                    <Button text={buttonText} />
                 </form>
             </div>
         </div>

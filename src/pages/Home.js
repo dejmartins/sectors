@@ -3,7 +3,7 @@ import Button from "../components/Button";
 import React, { useState, useEffect } from 'react';
 import SectorOptions from "../layouts/SectorOptions";
 import { database } from "../firebase";
-import { set, ref, get, update, remove } from "firebase/database";
+import { set, ref, get, remove } from "firebase/database";
 import "../styles/Home.css"
 
 export default function Home() {
@@ -16,7 +16,7 @@ export default function Home() {
     const [hasSubmitted, setHasSubmitted] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);
     const [buttonText, setButtonText] = useState('Save');
-    const [currentUserId, setCurrentUserId] = useState({});
+    const [currentUserId, setCurrentUserId] = useState('');
 
     useEffect(() => {
         validateInputs();
@@ -100,6 +100,8 @@ export default function Home() {
         setNameError('')
         setSelectedSectorsError([]);
         setAgreeToTermsError(false);
+        setButtonText("Save")
+        setIsEditMode(false)
 
     }
 
@@ -121,6 +123,7 @@ export default function Home() {
        <>
         <div className=".home-container">
             <Header />
+            {isEditMode && <span className="back-button absolute top-5 text-white cursor-pointer" onClick={clearField}>Back</span>}
             <div className="form-container mt-10">
                 <p>Fill In:</p>
                 <p>Please enter your name and pick the sectors you are currently involved in.</p>

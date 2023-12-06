@@ -1,6 +1,6 @@
 import Header from "../layouts/Header"
 import Button from "../components/Button";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import SectorOptions from "../layouts/SectorOptions";
 import "../styles/Home.css"
 
@@ -13,11 +13,16 @@ export default function Home() {
     const [agreeToTermsError, setAgreeToTermsError] = useState(false);
     const [hasSubmitted, setHasSubmitted] = useState(false);
 
+    useEffect(() => {
+        validateInputs();
+    }, [name, selectedSectors, agreeToTerms]);
+
     const handleSubmit = (event) => {
         event.preventDefault();
-
-        validateInputs();
+        
         setHasSubmitted(true)
+        validateInputs();
+        
         console.log(isAllValidated())
         console.log(nameError, selectedSectorsError, agreeToTermsError)
 
@@ -69,7 +74,7 @@ export default function Home() {
                 <p>Fill In:</p>
                 <p>Please enter your name and pick the sectors you are currently involved in.</p>
                 <form onSubmit={handleSubmit}>
-                    <div className={`flex flex-col my-3 w-full ${nameError ? 'error' : ''}`}>
+                    <div className={`flex flex-col my-3 w-full ${hasSubmitted && nameError ? 'error' : ''}`}>
                         <label htmlFor='name'>Name:</label>
                         <input 
                             name='name'
@@ -91,7 +96,7 @@ export default function Home() {
                             onChange={() => setAgreeToTerms(!agreeToTerms)}
                             className="mr-2" />
                         <label>Agree to terms</label>
-                        {agreeToTermsError && <span className="text-red-500 ml-2 text-[10px]">*Required</span>}
+                        {agreeToTermsError && hasSubmitted && <span className="text-red-500 ml-2 text-[10px]">*Required</span>}
                     </div>
                     <Button text={"Save"} />
                 </form>

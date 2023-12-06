@@ -1,5 +1,4 @@
 import Home from './pages/Home';
-// import Option  from './layouts/SectorOptions';
 import React, { useEffect } from 'react';
 
 function App() {
@@ -25,7 +24,6 @@ function App() {
     <div className="App">
       <header className="App-header">
         <Home />
-        {/* <Option /> */}
       </header>
     </div>
   );

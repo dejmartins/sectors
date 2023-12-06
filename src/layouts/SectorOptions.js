@@ -3,7 +3,7 @@ import { ref, get } from 'firebase/database';
 import { database } from '../firebase';
 import "../styles/Home.css"
 
-function SectorOptions({ onSelectedSectorsChange, selectedSectors }) {
+function SectorOptions({ onSelectedSectorsChange, selectedSectors, hasSubmitted }) {
   const [sectors, setSectors] = useState([]);
   const [sectorsData, setSectorsData] = useState({});
 
@@ -37,10 +37,11 @@ function SectorOptions({ onSelectedSectorsChange, selectedSectors }) {
 
   const handleSectorChange = (selectedSectorValues) => {
     onSelectedSectorsChange(selectedSectorValues);
+
   };
 
   return (
-    <div className='flex flex-col my-3 w-full'>
+    <div className={`flex flex-col my-3 w-full ${hasSubmitted && selectedSectors.length === 0 ? 'error' : ''}`}>
     <label htmlFor="sectors">Select Sectors:</label>
     <select 
       name="sectors"

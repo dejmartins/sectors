@@ -19,6 +19,10 @@ export default function Home() {
 
     };
 
+    const handleSelectedSectorsChange = (selectedSectorKeys) => {
+        setSelectedSectors(selectedSectorKeys);
+    };
+
     return (
        <>
         <div className=".home-container">
@@ -37,7 +41,7 @@ export default function Home() {
                             className="input" />
                     </div>
 
-                    <SectorOptions />
+                    <SectorOptions onSelectedSectorsChange={handleSelectedSectorsChange} selectedSectors={selectedSectors}/>
 
                     <div className='flex mb-2'>
                         <input 

@@ -3,7 +3,7 @@ import { ref, get } from 'firebase/database';
 import { database } from '../firebase';
 import "../styles/Home.css"
 
-function SectorOptions() {
+function SectorOptions({ onSelectedSectorsChange, selectedSectors }) {
   const [sectors, setSectors] = useState([]);
   const [sectorsData, setSectorsData] = useState({});
 
@@ -35,37 +35,47 @@ function SectorOptions() {
   
   const parentSectors = sectors.map((sector) => sector.key);
 
+  const handleSectorChange = (selectedSectorValues) => {
+    onSelectedSectorsChange(selectedSectorValues);
+  };
+
   return (
-    <div className="flex flex-col mb-3 w-80 w-full">
-    <label htmlFor="sectors">Sectors:</label>
-    <select className='input' name="sectors" multiple>
-        {parentSectors.map((sector) => (
+    <div className='flex flex-col my-3 w-full'>
+    <label htmlFor="sectors">Select Sectors:</label>
+    <select 
+      name="sectors"
+      multiple 
+      className='input'
+      value={selectedSectors}
+      onChange={(e) => handleSectorChange(Array.from(e.target.selectedOptions, (option) => option.value))}>
+      {parentSectors.map((sector) => (
         <optgroup key={sector} label={sector[0].toUpperCase() + sector.slice(1)}>
-            {sectorsData[sector].map((sectorData) => (
+          {sectorsData[sector].map((sectorData) => (
             <React.Fragment key={sectorData.key}>
-                <option value={sectorData.key}>
+              <option value={typeof sectorData === "object" ? sectorData.name : sectorData}>
                 {typeof sectorData === "object" ? sectorData.name : sectorData}
-                </option>
-                {Array.isArray(sectorData.subCategories) &&
+              </option>
+              {Array.isArray(sectorData.subCategories) &&
                 sectorData.subCategories.map((subCategory) => (
-                    <React.Fragment key={subCategory.key}>
-                    <option value={subCategory.key}>
-                        &nbsp; &nbsp; {typeof subCategory === "object" ? subCategory.name : subCategory}
+                  <React.Fragment key={subCategory.key}>
+                    <option value={typeof subCategory === "object" ? subCategory.name : subCategory}>
+                      &nbsp; &nbsp; {typeof subCategory === "object" ? subCategory.name : subCategory}
                     </option>
                     {Array.isArray(subCategory.subCategories) &&
-                        subCategory.subCategories.map((innerSubCategory) => (
-                        <option key={innerSubCategory.key} value={innerSubCategory.key}>
-                            &nbsp; &nbsp; &nbsp; &nbsp; {typeof innerSubCategory === "object" ? innerSubCategory.name : innerSubCategory}
+                      subCategory.subCategories.map((innerSubCategory) => (
+                        <option value={typeof innerSubCategory === "object" ? innerSubCategory.name : innerSubCategory} key={innerSubCategory.key}>
+                          &nbsp; &nbsp; &nbsp; &nbsp; {typeof innerSubCategory === "object" ? innerSubCategory.name : innerSubCategory}
                         </option>
-                        ))}
-                    </React.Fragment>
+                      ))}
+                  </React.Fragment>
                 ))}
             </React.Fragment>
-            ))}
+          ))}
         </optgroup>
-        ))}
+      ))}
     </select>
-    </div>
+  </div>
+
 
   );
 }
